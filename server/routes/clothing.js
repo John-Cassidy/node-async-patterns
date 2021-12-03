@@ -1,31 +1,31 @@
 const express = require('express');
 const fs = require('fs');
+const fsPromises = require('fs').promises;
 const datafile = 'server/data/clothing.json';
 const router = express.Router();
 
 /* GET all clothing */
 router.route('/').get(function (req, res) {
-  getClothingData((err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log('Returning clothing data');
-      res.send(data);
-    }
-  });
-
-  console.log('Doing more work');
+  getClothingData()
+      .then(data => {
+        console.log('Returning clothing data to browser.');
+        res.send(data);
+      })
+      .catch(error => res.status(500).send(error))
+      .finally(() => console.log('All done processing promise.'));
 });
 
-function getClothingData(callback) {
-  fs.readFile(datafile, 'utf8', (err, data) => {
-    if (err) {
-      console.log(err);
-      callback(err, null);
-    } else {
-      let clothingData = JSON.parse(data);
-      callback(null, clothingData);
-    }
+function getClothingData() {
+  return new Promise((resolve, reject) => {
+    fs.readFile(datafile, 'utf8', (err, data) => {
+      if (err) {
+        reject(err);
+      }
+      else {
+        let clothingData = JSON.parse(data);
+        resolve(clothingData);
+      }
+    });
   });
 }
 
