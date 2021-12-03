@@ -1,6 +1,6 @@
 # Async-Patterns-in-Node.js
 
-https://github.com/bricewilson/Async-Patterns-in-Node.js
+[Original Code](https://github.com/bricewilson/Async-Patterns-in-Node.js)
 
 This is the official repository for my Pluralsight course titled _Async Patterns in Node.js_.
 The _master_ branch contains code as it
